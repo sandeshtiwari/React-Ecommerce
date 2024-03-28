@@ -6,13 +6,16 @@ import {
   useGetProductsAdminQuery,
 } from "../../slices/productApiSlice";
 import { IProduct } from "../../types";
-import { FaPen } from "react-icons/fa";
+import { FaPen, FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { PLACEHOLDER_IMAGE } from "../../constants";
 import { toast } from "react-toastify";
+import Modal from "../../components/Modal";
 
 const ProductListPage = () => {
   const [pageNo, setPageNo] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [deleteName, setDeleteName] = useState("");
   const [pageSize] = useState(2);
   const navigate = useNavigate();
 
@@ -52,6 +55,18 @@ const ProductListPage = () => {
     }
   };
 
+  const handleModalOpen = (id: string) => {
+    setIsModalOpen(true);
+    setDeleteName(id);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setDeleteName("");
+  };
+
+  const deleteHandler = () => {};
+
   return (
     <>
       {isLoading || createProductLoading ? (
@@ -80,6 +95,7 @@ const ProductListPage = () => {
                 <th className="px-4 py-2 hidden md:table-cell">Reviews</th>
                 <th className="px-4 py-2">Price</th>
                 <th className="px-4 py-2 md:table-cell">Edit</th>
+                <th className="px-4 py-2 md:table-cell">Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -124,6 +140,14 @@ const ProductListPage = () => {
                       <FaPen />
                     </Link>
                   </td>
+                  <td className="px-4 py-2 text-center md:table-cell">
+                    <button
+                      className="flex items-center justify-center border rounded-sm bg-gray-200 hover:bg-gray-300 p-2"
+                      onClick={() => handleModalOpen(product.name)}
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -146,6 +170,12 @@ const ProductListPage = () => {
               Next
             </button>
           </div>
+          <Modal
+            name={deleteName}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={deleteHandler}
+          />
         </div>
       )}
     </>
