@@ -1,0 +1,11 @@
+export const BASE_URL = "http://localhost:8080";
+export const LOGIN_URL = "/api/login";
+export const LOGOUT_URL = "/api/logout";
+export const PRODUCTS_URL = "/api/products";
+export const PRODUCTS_ADMIN_URL = "/api/admin/products";
+export const PRODUCT_IMAGE_UPLOAD_ADMIN_URL = "/api/admin/upload";
+export const PRODUCT_MUTATE_URL = "/api/admin/product";
+export const USERS_URL = "/api/users";
+export const ORDERS_URL = "/api/orders";
+export const PAYPAL_URL = "/api/config/paypal";
+export const PLACEHOLDER_IMAGE = "/images/placeholder.jfif";
