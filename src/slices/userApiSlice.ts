@@ -1,5 +1,5 @@
-import { LOGIN_URL, LOGOUT_URL } from "../constants";
-import { ILoginRequest, IMessage, IUser } from "../types";
+import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL } from "../constants";
+import { ILoginRequest, IMessage, IRegisterRequest, IUser } from "../types";
 import { apiSlice } from "./apiSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
@@ -26,7 +26,15 @@ export const userApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    signup: builder.mutation<IUser, IRegisterRequest>({
+      query: (data) => ({
+        url: SIGNUP_URL,
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation } = userApiSlice;
+export const { useLoginMutation, useLogoutMutation, useSignupMutation } =
+  userApiSlice;

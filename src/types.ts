@@ -58,6 +58,14 @@ export interface ILoginRequest {
   password: string;
 }
 
+export interface IRegisterRequest {
+  firstName: string;
+  lastName: string;
+  username: string;
+  password: string;
+  email: string;
+}
+
 export interface IMessage {
   message: string;
 }

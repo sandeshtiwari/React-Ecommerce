@@ -1,18 +1,60 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useSignupMutation } from "../slices/userApiSlice";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "../hooks";
+import { setCredentials } from "../slices/authSlice";
+import Loader from "../components/Loader";
 
 const RegisterPage = () => {
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setconfirmPassword] = useState("");
 
-  const submitHandler = (e) => {};
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const redirect = sp.get("redirect") || "/";
+
+  const [signup, { isLoading }] = useSignupMutation();
+
+  const submitHandler = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    try {
+      const res = await signup({
+        email,
+        firstName,
+        lastName,
+        password,
+        username,
+      }).unwrap();
+      dispatch(setCredentials(res));
+      toast.success("Signup success!");
+      navigate(redirect);
+    } catch (err) {
+      const message =
+        (err as any)?.data?.message ||
+        (err as any)?.err?.message ||
+        (err as any)?.message;
+
+      if (message) {
+        toast.error("Failed to signup. " + message);
+      } else {
+        toast.error("Failed to signup due to an unexpected error.");
+      }
+    }
+  };
 
   return (
     <div className="flex justify-center items-center mt-4">
       <div className="w-full max-w-[28rem]">
         <h1 className="mb-5 text-3xl text-center">Sign Up</h1>
+        {isLoading && <Loader />}
         <form
           onSubmit={submitHandler}
           className="bg-white shadow-lg rounded px-8 pt-6 pb-8 mb-4"
@@ -22,14 +64,46 @@ const RegisterPage = () => {
               htmlFor="email"
               className="block text-gray-700 text-sm font-bold mb-2"
             >
-              Name
+              First Name
             </label>
             <input
               type="text"
-              id="text"
-              placeholder="Enter name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              id="first-name"
+              placeholder="Enter Firstname"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              id="last-name"
+              placeholder="Enter Lastname"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="email"
+              className="block text-gray-700 text-sm font-bold mb-2"
+            >
+              Username
+            </label>
+            <input
+              type="text"
+              id="user-name"
+              placeholder="Enter Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
