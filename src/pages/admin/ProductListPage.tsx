@@ -47,8 +47,6 @@ const ProductListPage = () => {
 
   const [logoutApiCall] = useLogoutMutation();
 
-  // const { data: totalNumberOfProducts } = useGetProductsCountQuery();
-
   const totalPages = Math.ceil((totalNumberOfProducts || 0) / pageSize);
   const isNextPageDisabled = pageNo + 1 >= totalPages;
 
@@ -78,19 +76,19 @@ const ProductListPage = () => {
 
   const deleteHandler = async (e: React.FormEvent<HTMLElement>) => {
     e.preventDefault();
-    // console.log(deleteProduct);
     try {
       if (deleteProduct === null) {
         toast.error("Failed to delete product!");
         return;
       }
-      // console.log("Deleting " + deleteProduct);
       const response = await deleteProductMutation(deleteProduct).unwrap();
       toast.success(response.message);
       handleCloseModal();
       refetch(); // Refetch the product list to reflect the deletion
     } catch (error) {
-      toast.error("Failed to delete product! " + error);
+      toast.error(
+        "Failed to delete product! Please login again using admin credentials."
+      );
       console.error("Delete error:", error);
       const res = await logoutApiCall().unwrap();
       console.log(res);

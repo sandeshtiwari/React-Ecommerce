@@ -104,9 +104,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
     >({
       query: (product) => {
         const token = getUserToken();
-        console.log(
-          "Sending token " + token + " to " + `${PRODUCT_MUTATE_URL}/delete`
-        );
         return {
           url: `${PRODUCT_MUTATE_URL}/delete`,
           method: "DELETE",
