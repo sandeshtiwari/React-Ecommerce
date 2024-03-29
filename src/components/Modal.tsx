@@ -2,16 +2,16 @@ interface IModalData {
   name: string;
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: () => void;
+  onSubmit: (e: React.FormEvent<HTMLElement>) => void;
 }
 
 const Modal = ({ name, isOpen, onClose, onSubmit }: IModalData) => {
-  if (!isOpen) return null;
+  if (!isOpen) return;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
       <div className="bg-white p-10 rounded-lg">
         <h2 className="text-xl font-bold mb-4">Delete product</h2>
-        <form onSubmit={onSubmit} className="flex flex-col space-y-4">
+        <form onSubmit={(e) => onSubmit(e)} className="flex flex-col space-y-4">
           <p>Are you sure you want to delete the product '{name}'?</p>
           <div className="flex justify-between items-center">
             <button

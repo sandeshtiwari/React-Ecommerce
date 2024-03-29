@@ -3,21 +3,27 @@ import Loader from "../../components/Loader";
 import Message from "../../components/Message";
 import {
   useCreateProductMutation,
+  useDeleteProductMutation,
   useGetProductsAdminQuery,
 } from "../../slices/productApiSlice";
 import { IProduct } from "../../types";
 import { FaPen, FaTrash } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { PLACEHOLDER_IMAGE } from "../../constants";
 import { toast } from "react-toastify";
 import Modal from "../../components/Modal";
+import { useLogoutMutation } from "../../slices/userApiSlice";
+import { useAppDispatch } from "../../hooks";
+import { logout } from "../../slices/authSlice";
+import { clearCartItems } from "../../slices/cartSlice";
 
 const ProductListPage = () => {
   const [pageNo, setPageNo] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [deleteName, setDeleteName] = useState("");
+  const [deleteProduct, setDeleteProduct] = useState<IProduct | null>(null);
   const [pageSize] = useState(2);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const {
     data: { products = [], totalNumberOfProducts = 0 } = {},
@@ -35,6 +41,11 @@ const ProductListPage = () => {
 
   const [createProduct, { isLoading: createProductLoading }] =
     useCreateProductMutation();
+
+  const [deleteProductMutation, { isLoading: deleteLoading }] =
+    useDeleteProductMutation();
+
+  const [logoutApiCall] = useLogoutMutation();
 
   // const { data: totalNumberOfProducts } = useGetProductsCountQuery();
 
@@ -55,21 +66,42 @@ const ProductListPage = () => {
     }
   };
 
-  const handleModalOpen = (id: string) => {
+  const handleModalOpen = (p: IProduct) => {
     setIsModalOpen(true);
-    setDeleteName(id);
+    setDeleteProduct(p);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
-    setDeleteName("");
+    setDeleteProduct(null);
   };
 
-  const deleteHandler = () => {};
+  const deleteHandler = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    // console.log(deleteProduct);
+    try {
+      if (deleteProduct === null) {
+        toast.error("Failed to delete product!");
+        return;
+      }
+      // console.log("Deleting " + deleteProduct);
+      const response = await deleteProductMutation(deleteProduct).unwrap();
+      toast.success(response.message);
+      handleCloseModal();
+      refetch(); // Refetch the product list to reflect the deletion
+    } catch (error) {
+      toast.error("Failed to delete product! " + error);
+      console.error("Delete error:", error);
+      const res = await logoutApiCall().unwrap();
+      console.log(res);
+      dispatch(logout());
+      dispatch(clearCartItems());
+    }
+  };
 
   return (
     <>
-      {isLoading || createProductLoading ? (
+      {isLoading || createProductLoading || deleteLoading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">Failed to get products</Message>
@@ -143,7 +175,7 @@ const ProductListPage = () => {
                   <td className="px-4 py-2 text-center md:table-cell">
                     <button
                       className="flex items-center justify-center border rounded-sm bg-gray-200 hover:bg-gray-300 p-2"
-                      onClick={() => handleModalOpen(product.name)}
+                      onClick={() => handleModalOpen(product)}
                     >
                       <FaTrash />
                     </button>
@@ -171,7 +203,7 @@ const ProductListPage = () => {
             </button>
           </div>
           <Modal
-            name={deleteName}
+            name={deleteProduct?.name || ""}
             isOpen={isModalOpen}
             onClose={handleCloseModal}
             onSubmit={deleteHandler}

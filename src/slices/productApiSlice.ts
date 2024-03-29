@@ -94,6 +94,29 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    deleteProduct: builder.mutation<
+      {
+        message: string;
+        statusCode?: number;
+        timestamp?: string;
+      },
+      IProduct
+    >({
+      query: (product) => {
+        const token = getUserToken();
+        console.log(
+          "Sending token " + token + " to " + `${PRODUCT_MUTATE_URL}/delete`
+        );
+        return {
+          url: `${PRODUCT_MUTATE_URL}/delete`,
+          method: "DELETE",
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: product,
+        };
+      },
+    }),
   }),
 });
 
@@ -104,4 +127,5 @@ export const {
   useUploadProductImageMutation,
   useUpdateProductMutation,
   useCreateProductMutation,
+  useDeleteProductMutation,
 } = productsApiSlice;
