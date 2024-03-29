@@ -23,6 +23,7 @@ import OrderListPage from "./pages/admin/OrderListPage.tsx";
 import UserListPage from "./pages/admin/UserListPage.tsx";
 import ProductListPage from "./pages/admin/ProductListPage.tsx";
 import ProductEditPage from "./pages/admin/ProductEditPage.tsx";
+import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -35,6 +36,7 @@ const router = createBrowserRouter(
       {/* Protected user routes */}
       <Route path="" element={<PrivateUserRoute />}>
         <Route path="/shipping" element={<ShippingPage />} />
+        <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/payment" element={<PaymentPage />} />
       </Route>
       <Route path="" element={<AdminRoute />}>

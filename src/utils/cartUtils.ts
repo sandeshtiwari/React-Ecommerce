@@ -11,7 +11,8 @@ export const updateCart = (state: ICart) => {
   );
   // shipping price (if order is over $100 then free, else $10 shipping)
 
-  state.shippingTotalPrice = addDecimals(state.itemsTotalPrice > 100 ? 0 : 10);
+  state.shippingTotalPrice = addDecimals(state.itemsTotalPrice > 100 ? 10 : 0);
+
   // tax price (15% tax)
   // state.taxPrice = addDecimals(Number((0.15 * state.itemsPrice).toFixed(2)));
   state.taxTotalPrice = addDecimals(

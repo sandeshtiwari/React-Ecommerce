@@ -19,7 +19,7 @@ export interface ICartItems {
   shippingPrice: number;
   taxPrice: number;
   totalPrice: number;
-  price?: number;
+  price: number;
   qty: number;
 }
 

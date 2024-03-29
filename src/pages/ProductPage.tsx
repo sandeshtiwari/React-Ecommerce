@@ -69,7 +69,7 @@ const ProductPage = () => {
         to="/"
         className="p-2 bg-gray-300 hover:bg-gray-400 hover:text-white border border-solid rounded-sm w-20 h-[2.7rem] text-center"
       >
-        Go Back
+        Go Home
       </Link>
       {isLoading ? (
         <Loader />
