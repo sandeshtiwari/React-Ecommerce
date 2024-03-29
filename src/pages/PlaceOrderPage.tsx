@@ -50,7 +50,7 @@ const PlaceOrderPage = () => {
                           {item.product.name}
                         </Link>
                       </div>
-                      <div className="flex-none">
+                      <div className="flex items-center">
                         {item.qty} x ${item.price} = $
                         {(item.qty * item.product.price).toFixed(2)}
                       </div>
@@ -69,8 +69,7 @@ const PlaceOrderPage = () => {
             <div className="mb-4">
               <div className="flex justify-between">
                 <div>Items</div>
-                {/* <div>${(cart.itemsTotalPrice! as number).toFixed(2)}</div> */}
-                <div>${cart.itemsTotalPrice?.toFixed(2)}</div>
+                <div>${(cart.itemsTotalPrice! as number).toFixed(2)}</div>
               </div>
             </div>
             <div className="mb-4">
