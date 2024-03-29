@@ -37,19 +37,6 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: ICheckoutStepsProps) => {
         </Link>
       )}
       {step3 ? (
-        <Link className="mx-4" to="/payment">
-          Payment
-        </Link>
-      ) : (
-        <Link
-          to="/payment"
-          className="text-gray-400 mx-4"
-          style={{ pointerEvents: "none" }}
-        >
-          Payment
-        </Link>
-      )}
-      {step4 ? (
         <Link className="mx-4" to="/placeorder">
           Place Order
         </Link>
@@ -60,6 +47,19 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: ICheckoutStepsProps) => {
           style={{ pointerEvents: "none" }}
         >
           Place Order
+        </Link>
+      )}
+      {step4 ? (
+        <Link className="mx-4" to="/payment">
+          Payment
+        </Link>
+      ) : (
+        <Link
+          to="/payment"
+          className="text-gray-400 mx-4"
+          style={{ pointerEvents: "none" }}
+        >
+          Payment
         </Link>
       )}
     </div>
