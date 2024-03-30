@@ -38,7 +38,7 @@ const CheckoutSteps = ({ step1, step2, step3, step4 }: ICheckoutStepsProps) => {
       )}
       {step3 ? (
         <Link className="mx-4" to="/placeorder">
-          Place Order
+          Order Details
         </Link>
       ) : (
         <Link

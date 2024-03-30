@@ -69,3 +69,32 @@ export interface IRegisterRequest {
 export interface IMessage {
   message: string;
 }
+
+export interface IOrderRequest {
+  userId: string;
+  items: {
+    productId: number;
+    quantity: number;
+  }[];
+  shippingAddress: IShippingAddress;
+  paymentMethod: string;
+}
+
+export interface IOrderResponse {
+  orderId: string;
+  paymentMethod: string;
+  itemsPrice: number;
+  taxPrice: number;
+  shippingPrice: number;
+  totalPrice: number;
+  userId: number;
+  shippingAddress: IShippingAddress;
+  orderItems: {
+    orderItemId: string;
+    quantity: number;
+    image: string;
+    price: number;
+    orderEntityId: number;
+    productEntityId: number;
+  }[];
+}

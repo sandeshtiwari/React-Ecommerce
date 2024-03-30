@@ -37,6 +37,7 @@ const cartSlice = createSlice({
         country: "",
         postalCode: "",
       };
+      state.paymentMethod = "";
       return updateCart(state);
     },
     saveShippingAddress: (

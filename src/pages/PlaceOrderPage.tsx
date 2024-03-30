@@ -2,9 +2,14 @@ import { Link } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
 import { useAppSelector } from "../hooks";
+import { useCreateOrderMutation } from "../slices/orderApiSlice";
 
 const PlaceOrderPage = () => {
   const cart = useAppSelector((state) => state.cart);
+
+  const [createOrder, { isLoading }] = useCreateOrderMutation();
+
+  const createOrderHandler = () => {};
 
   return (
     <>
@@ -98,9 +103,9 @@ const PlaceOrderPage = () => {
                   cart.cartItems.length === 0 && "opacity-50 cursor-not-allowed"
                 }`}
                 disabled={cart.cartItems.length === 0}
-                // onClick={placeOrderHandler}
+                onClick={createOrderHandler}
               >
-                Place Order
+                Continue To Payment
               </button>
               {/* isLoading && <Loader /> */}
             </div>

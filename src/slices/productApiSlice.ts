@@ -7,7 +7,7 @@ import {
 import { IProduct, IUser } from "../types";
 import { apiSlice } from "./apiSlice";
 
-const getUserToken = () => {
+export const getUserToken = () => {
   const userInfo: IUser = localStorage.getItem("userInfo")
     ? JSON.parse(localStorage.getItem("userInfo") || "{}")
     : null;
