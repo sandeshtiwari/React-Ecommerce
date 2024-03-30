@@ -3,13 +3,48 @@ import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
 import { useAppSelector } from "../hooks";
 import { useCreateOrderMutation } from "../slices/orderApiSlice";
+import { ICartItems } from "../types";
+import { toast } from "react-toastify";
 
 const PlaceOrderPage = () => {
   const cart = useAppSelector((state) => state.cart);
+  const { userInfo } = useAppSelector((state) => state.auth);
+
+  if (!userInfo) {
+    return (
+      <Message>
+        Please login! <Link to="/login?redirect=placeorder">Login</Link>
+      </Message>
+    );
+  }
 
   const [createOrder, { isLoading }] = useCreateOrderMutation();
 
-  const createOrderHandler = () => {};
+  const getOrderItems = (cartItems: ICartItems[]) => {
+    const items = cartItems.map((item) => {
+      return { productId: Number(item.product.productId), quantity: item.qty };
+    });
+    return items;
+  };
+
+  const createOrderHandler = async () => {
+    try {
+      const response = await createOrder({
+        username: userInfo.username,
+        items: getOrderItems(cart.cartItems),
+        paymentMethod: cart.paymentMethod,
+        shippingAddress: {
+          address: cart.shippingAddress.address,
+          city: cart.shippingAddress.city,
+          postalCode: cart.shippingAddress.postalCode,
+          country: cart.shippingAddress.country,
+        },
+      }).unwrap();
+      console.log(response);
+    } catch (err) {
+      toast.error("Failed!");
+    }
+  };
 
   return (
     <>

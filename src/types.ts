@@ -71,7 +71,7 @@ export interface IMessage {
 }
 
 export interface IOrderRequest {
-  userId: string;
+  username: string;
   items: {
     productId: number;
     quantity: number;

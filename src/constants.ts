@@ -7,6 +7,6 @@ export const PRODUCTS_ADMIN_URL = "/api/admin/products";
 export const PRODUCT_IMAGE_UPLOAD_ADMIN_URL = "/api/admin/upload";
 export const PRODUCT_MUTATE_URL = "/api/admin/product";
 export const USERS_URL = "/api/users";
-export const ORDERS_URL = "/api/orders";
+export const ORDER_URL = "/api/order";
 export const PAYPAL_URL = "/api/config/paypal";
 export const PLACEHOLDER_IMAGE = "/images/placeholder.jfif";

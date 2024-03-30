@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 const ShippingPage = () => {
   const cart: ICart = useAppSelector((state) => state.cart);
   const { shippingAddress } = cart;
-  console.log(cart);
+  // console.log(cart);
 
   const [address, setAddress] = useState(shippingAddress.address || "");
   const [city, setCity] = useState(shippingAddress.city || "");
