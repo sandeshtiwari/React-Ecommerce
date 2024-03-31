@@ -98,3 +98,13 @@ export interface IOrderResponse {
     productEntityId: number;
   }[];
 }
+
+export interface IUpdateUserRequest {
+  username: string;
+  oldUsername: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  newPassword: string;
+  token: string;
+}

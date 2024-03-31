@@ -1,6 +1,13 @@
-import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL } from "../constants";
-import { ILoginRequest, IMessage, IRegisterRequest, IUser } from "../types";
+import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL, USERS_URL } from "../constants";
+import {
+  ILoginRequest,
+  IMessage,
+  IRegisterRequest,
+  IUpdateUserRequest,
+  IUser,
+} from "../types";
 import { apiSlice } from "./apiSlice";
+import { getUserToken } from "./productApiSlice";
 
 export const userApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,10 +20,7 @@ export const userApiSlice = apiSlice.injectEndpoints({
     }),
     logout: builder.mutation<IMessage, void>({
       query: () => {
-        const userInfo: IUser = localStorage.getItem("userInfo")
-          ? JSON.parse(localStorage.getItem("userInfo") || "{}")
-          : null;
-        const token = userInfo.token;
+        const token = getUserToken();
         return {
           url: LOGOUT_URL,
           method: "POST",
@@ -33,8 +37,25 @@ export const userApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    updateUser: builder.mutation<{ username: string }, IUpdateUserRequest>({
+      query: (data) => {
+        const token = getUserToken();
+        return {
+          url: `${USERS_URL}/edit`,
+          method: "PUT",
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+          body: data,
+        };
+      },
+    }),
   }),
 });
 
-export const { useLoginMutation, useLogoutMutation, useSignupMutation } =
-  userApiSlice;
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useSignupMutation,
+  useUpdateUserMutation,
+} = userApiSlice;

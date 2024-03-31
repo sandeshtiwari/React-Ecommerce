@@ -26,6 +26,7 @@ import PaymentSuccess from "./pages/PaymentSuccess.tsx";
 import UserProfilePage from "./pages/UserProfilePage.tsx";
 import UserOrdersListPage from "./pages/admin/UserOrdersListPage.tsx";
 import OrderListPage from "./pages/OrderListPage.tsx";
+import EditMyUserProfile from "./pages/EditMyUserProfilePage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
         <Route path="/payment" element={<PaymentSuccess />} />
         <Route path="/profile/:username" element={<UserProfilePage />} />
         <Route path="/orders/:username" element={<OrderListPage />} />
+        <Route path="/profile/:username/edit" element={<EditMyUserProfile />} />
       </Route>
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<UserOrdersListPage />} />
