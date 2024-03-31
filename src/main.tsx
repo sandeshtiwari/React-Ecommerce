@@ -18,12 +18,14 @@ import RegisterPage from "./pages/RegisterPage";
 import ShippingPage from "./pages/ShippingPage";
 import PrivateUserRoute from "./components/PrivateUserRoute.tsx";
 import AdminRoute from "./components/AdminRoute.tsx";
-import OrderListPage from "./pages/admin/OrderListPage.tsx";
 import UserListPage from "./pages/admin/UserListPage.tsx";
 import ProductListPage from "./pages/admin/ProductListPage.tsx";
 import ProductEditPage from "./pages/admin/ProductEditPage.tsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
 import PaymentSuccess from "./pages/PaymentSuccess.tsx";
+import UserProfilePage from "./pages/UserProfilePage.tsx";
+import UserOrdersListPage from "./pages/admin/UserOrdersListPage.tsx";
+import OrderListPage from "./pages/OrderListPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -38,9 +40,11 @@ const router = createBrowserRouter(
         <Route path="/shipping" element={<ShippingPage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
         <Route path="/payment" element={<PaymentSuccess />} />
+        <Route path="/profile/:username" element={<UserProfilePage />} />
+        <Route path="/orders/:username" element={<OrderListPage />} />
       </Route>
       <Route path="" element={<AdminRoute />}>
-        <Route path="/admin/orderlist" element={<OrderListPage />} />
+        <Route path="/admin/orderlist" element={<UserOrdersListPage />} />
         <Route path="/admin/userlist" element={<UserListPage />} />
         <Route path="/admin/productlist" element={<ProductListPage />} />
         <Route path="/admin/product/:id/edit" element={<ProductEditPage />} />

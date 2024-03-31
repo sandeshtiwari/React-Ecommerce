@@ -28,7 +28,7 @@ const CartPage = () => {
   };
 
   return (
-    <>
+    <div className="py-3 px-1">
       {cartItems.length === 0 ? (
         <Message>
           Your cart is empty{" "}
@@ -39,7 +39,7 @@ const CartPage = () => {
       ) : (
         <div className="mt-2 flex flex-col space-y-5 justify-center items-center md:items-center md:flex-row md:space-x-5 md:px-20">
           <div className="md:basis-8/12 flex flex-col justify-center items-center">
-            <h1>Shopping Cart</h1>
+            <h1 className="text-4xl font-bold">Shopping Cart</h1>
             <div className="w-full md:px-10">
               {cartItems.map((item) => (
                 <div
@@ -119,7 +119,7 @@ const CartPage = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

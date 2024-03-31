@@ -72,7 +72,7 @@ export default function PaymentSuccess() {
         <Loader />
       ) : (
         response.status === "Success" && (
-          <div className="flex flex-col justify-center items-center m-auto">
+          <div className="flex flex-col justify-center items-center m-auto py-3 px-1">
             <CenteredMessageWithIcon
               title="Success!"
               message="Successfully processed your payment!"

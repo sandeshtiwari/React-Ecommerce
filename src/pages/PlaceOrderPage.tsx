@@ -6,6 +6,7 @@ import { useCreateOrderMutation } from "../slices/orderApiSlice";
 import { ICartItems } from "../types";
 import { toast } from "react-toastify";
 import { clearCartItems } from "../slices/cartSlice";
+import Loader from "../components/Loader";
 
 const PlaceOrderPage = () => {
   const cart = useAppSelector((state) => state.cart);
@@ -55,7 +56,8 @@ const PlaceOrderPage = () => {
   return (
     <>
       <CheckoutSteps step1 step2 step3 />
-      <div className="flex flex-wrap -mx-4 md:px-32">
+      <div className="flex flex-wrap -mx-4 md:px-32 py-3 px-1">
+        {isLoading && <Loader />}
         <div className="w-full lg:w-2/3 px-4">
           <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-6">

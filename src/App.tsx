@@ -9,7 +9,7 @@ const App = () => {
     <div className="w-full">
       <Header />
       <ToastContainer position="bottom-center" limit={1} />
-      <main className="py-3 px-2 w-full">
+      <main className="w-full">
         <div className="flex flex-col justify-center">
           <Outlet />
         </div>

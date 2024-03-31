@@ -64,7 +64,7 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col py-3 px-5">
       <Link
         to="/"
         className="p-2 bg-gray-300 hover:bg-gray-400 hover:text-white border border-solid rounded-sm w-[100px] text-center"

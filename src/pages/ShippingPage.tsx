@@ -32,7 +32,7 @@ const ShippingPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center mt-4">
+    <div className="flex flex-col justify-center items-center mt-4 py-3">
       <CheckoutSteps step1 step2 />
       <h1 className="mb-4">Shipping</h1>
       <form
