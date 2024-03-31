@@ -68,20 +68,24 @@ export default function PaymentSuccess() {
   }
   return (
     <>
-      {response.status === "Success" && (
-        <div className="flex flex-col justify-center items-center m-auto">
-          <CenteredMessageWithIcon
-            title="Success!"
-            message="Successfully processed your payment!"
-            color="green"
-          />
-          <Link
-            className="p-2 bg-gray-300 hover:bg-gray-400 hover:text-white border border-solid rounded-sm w-[100px] text-center my-5"
-            to="/"
-          >
-            Go Home
-          </Link>
-        </div>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        response.status === "Success" && (
+          <div className="flex flex-col justify-center items-center m-auto">
+            <CenteredMessageWithIcon
+              title="Success!"
+              message="Successfully processed your payment!"
+              color="green"
+            />
+            <Link
+              className="p-2 bg-gray-300 hover:bg-gray-400 hover:text-white border border-solid rounded-sm w-[100px] text-center my-5"
+              to="/"
+            >
+              Go Home
+            </Link>
+          </div>
+        )
       )}
     </>
   );
