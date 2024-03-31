@@ -5,7 +5,7 @@ import { getUserToken } from "./productApiSlice";
 
 export const orderApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    createOrder: builder.mutation<IOrderResponse, IOrderRequest>({
+    createOrder: builder.mutation<{ paymentUrl: string }, IOrderRequest>({
       query: (orderRequest) => {
         const token = getUserToken();
         return {
@@ -18,7 +18,22 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    setOrderPaid: builder.mutation<{ status: string; message: string }, string>(
+      {
+        query: (orderToken) => {
+          const token = getUserToken();
+          return {
+            url: `${ORDER_URL}/payment/success?token=${orderToken}`,
+            method: "GET",
+            headers: {
+              Authorization: token ? `Bearer ${token}` : "",
+            },
+          };
+        },
+      }
+    ),
   }),
 });
 
-export const { useCreateOrderMutation } = orderApiSlice;
+export const { useCreateOrderMutation, useSetOrderPaidMutation } =
+  orderApiSlice;

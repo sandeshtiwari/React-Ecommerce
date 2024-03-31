@@ -16,7 +16,6 @@ import store from "./store";
 import CartPage from "./pages/CartPage";
 import RegisterPage from "./pages/RegisterPage";
 import ShippingPage from "./pages/ShippingPage";
-import PaymentPage from "./pages/PaymentPage.tsx";
 import PrivateUserRoute from "./components/PrivateUserRoute.tsx";
 import AdminRoute from "./components/AdminRoute.tsx";
 import OrderListPage from "./pages/admin/OrderListPage.tsx";
@@ -24,6 +23,7 @@ import UserListPage from "./pages/admin/UserListPage.tsx";
 import ProductListPage from "./pages/admin/ProductListPage.tsx";
 import ProductEditPage from "./pages/admin/ProductEditPage.tsx";
 import PlaceOrderPage from "./pages/PlaceOrderPage.tsx";
+import PaymentSuccess from "./pages/PaymentSuccess.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -37,7 +37,7 @@ const router = createBrowserRouter(
       <Route path="" element={<PrivateUserRoute />}>
         <Route path="/shipping" element={<ShippingPage />} />
         <Route path="/placeorder" element={<PlaceOrderPage />} />
-        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/payment" element={<PaymentSuccess />} />
       </Route>
       <Route path="" element={<AdminRoute />}>
         <Route path="/admin/orderlist" element={<OrderListPage />} />

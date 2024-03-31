@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 import CheckoutSteps from "../components/CheckoutSteps";
 import Message from "../components/Message";
-import { useAppSelector } from "../hooks";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import { useCreateOrderMutation } from "../slices/orderApiSlice";
 import { ICartItems } from "../types";
 import { toast } from "react-toastify";
+import { clearCartItems } from "../slices/cartSlice";
 
 const PlaceOrderPage = () => {
   const cart = useAppSelector((state) => state.cart);
   const { userInfo } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   if (!userInfo) {
     return (
@@ -41,6 +43,10 @@ const PlaceOrderPage = () => {
         },
       }).unwrap();
       console.log(response);
+      dispatch(clearCartItems());
+      if (response.paymentUrl) {
+        window.location.href = response.paymentUrl;
+      }
     } catch (err) {
       toast.error("Failed!");
     }
