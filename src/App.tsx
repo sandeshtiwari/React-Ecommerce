@@ -1,4 +1,3 @@
-import React from "react";
 import Header from "./components/Header";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
@@ -8,7 +7,7 @@ const App = () => {
   return (
     <div className="w-full">
       <Header />
-      <ToastContainer position="bottom-center" limit={1} />
+      <ToastContainer position="bottom-center" limit={1} autoClose={1500} />
       <main className="w-full">
         <div className="flex flex-col justify-center">
           <Outlet />

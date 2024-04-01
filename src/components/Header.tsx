@@ -60,6 +60,9 @@ const Header = () => {
             </Link>
           ) : (
             <>
+              <Link to={`/profile/${userInfo.username}/wishlist`}>
+                Wishlist
+              </Link>
               <Link
                 className="flex w-full items-center space-x-2"
                 to={
