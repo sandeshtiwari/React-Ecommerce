@@ -1,8 +1,12 @@
 import { useState } from "react";
 import Loader from "../../components/Loader";
 import Message from "../../components/Message";
-import { useGetOrdersAdminQuery } from "../../slices/orderApiSlice";
+import {
+  useGetOrdersAdminQuery,
+  useToggleDeliveryStatusMutation,
+} from "../../slices/orderApiSlice";
 import Sidebar from "../../components/Sidebar";
+import { toast } from "react-toastify";
 
 const UserOrderListPage = () => {
   const [pageNo, setPageNo] = useState(0);
@@ -12,7 +16,11 @@ const UserOrderListPage = () => {
     data: ordersData,
     isLoading,
     error,
+    refetch,
   } = useGetOrdersAdminQuery({ pageNo, pageSize });
+
+  const [toggleDeliveryStatus, { isLoading: toggleLoading }] =
+    useToggleDeliveryStatusMutation();
 
   const orders = ordersData?.orders || [];
   const totalNumberOfOrders = ordersData?.totalNumberOfOrders || 0;
@@ -24,11 +32,19 @@ const UserOrderListPage = () => {
     setPageNo((prev) => (isNextPageDisabled ? prev : prev + 1));
   const goToPreviousPage = () => setPageNo((prev) => (prev > 0 ? prev - 1 : 0));
 
-  if (isLoading) return <Loader />;
+  if (isLoading || toggleLoading) return <Loader />;
   if (error) return <Message variant="danger">Failed to fetch orders</Message>;
 
-  const handleToggleDelivered = (orderId: string) => {
-    console.log("Toggled Delivered for Order ID:", orderId);
+  const handleToggleDelivered = async (orderId: string) => {
+    try {
+      const response = await toggleDeliveryStatus(orderId).unwrap();
+      refetch();
+      console.log(response.message);
+      toast.success(response.message);
+    } catch (err) {
+      console.error("Failed to toggle delivery status", err);
+      toast.error("Failed to change delivery status.");
+    }
   };
 
   return (

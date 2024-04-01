@@ -58,6 +58,18 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    toggleDeliveryStatus: builder.mutation<{ message: string }, string>({
+      query: (orderId) => {
+        const token = getUserToken();
+        return {
+          url: `${ADMIN_URL}/delivery?orderId=${orderId}`,
+          method: "PUT",
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -66,4 +78,5 @@ export const {
   useSetOrderPaidMutation,
   useGetUserOrdersQuery,
   useGetOrdersAdminQuery,
+  useToggleDeliveryStatusMutation,
 } = orderApiSlice;
