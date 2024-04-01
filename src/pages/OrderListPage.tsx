@@ -11,11 +11,14 @@ export default function OrderListPage() {
   const { userInfo } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  const fetchUsername =
+    userInfo?.role === "ADMIN" ? profileUsername : userInfo?.username;
+
   const {
     data: orders,
     isLoading,
     error,
-  } = useGetUserOrdersQuery(userInfo?.username || "");
+  } = useGetUserOrdersQuery(fetchUsername || "");
 
   useEffect(() => {
     if (!userInfo || !profileUsername || profileUsername === "") {
@@ -25,6 +28,7 @@ export default function OrderListPage() {
 
   if (isLoading) return <Loader />;
 
+  console.log(userInfo?.username + " ---- " + userInfo?.role);
   if (error) return <Message variant="danger">Error fetching orders.</Message>;
 
   if (!userInfo)
@@ -42,17 +46,29 @@ export default function OrderListPage() {
     <div className="flex h-full">
       <Sidebar username={profileUsername || ""} />
       <div className="flex-1 p-4">
-        <div className="items-center mx-auto max-w-screen-lg">
+        <div className="overflow-x-auto">
           {orders && orders.length > 0 ? (
-            <table className="table-auto w-full">
-              <thead className="bg-gray-200">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-2">Order ID</th>
-                  <th className="px-4 py-2">Order Date</th>
-                  <th className="px-4 py-2">Total Price</th>
-                  <th className="px-4 py-2">Is Paid</th>
-                  <th className="px-4 py-2">Paid Date</th>
-                  <th className="px-4 py-2">Shipping Status</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Order ID
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Order Date
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Total Price
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Is Paid
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Paid Date
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Shipping Status
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -62,20 +78,22 @@ export default function OrderListPage() {
                   }
                   return (
                     <tr key={order.orderId} className="border-b">
-                      <td className="px-4 py-2">{order.orderId}</td>
-                      <td className="px-4 py-2 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
+                        {order.orderId}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
                         {new Date(order.createdAt).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-2 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
                         ${order.totalPrice.toFixed(2)}
                       </td>
-                      <td className="px-4 py-2 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
                         {order.paidAt ? "Yes" : "No"}
                       </td>
-                      <td className="px-4 py-2 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
                         {new Date(order.paidAt).toLocaleDateString()}
                       </td>
-                      <td className="px-4 py-2 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-center">
                         {order.deliveredAt ? "Delivered" : "In Progress"}
                       </td>
                     </tr>

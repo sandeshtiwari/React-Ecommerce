@@ -111,7 +111,6 @@ const UserOrderListPage = () => {
           >
             Previous
           </button>
-          {/* Add more pagination logic as needed */}
           <button
             onClick={goToNextPage}
             disabled={isNextPageDisabled}

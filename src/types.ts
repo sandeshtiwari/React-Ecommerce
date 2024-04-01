@@ -111,3 +111,10 @@ export interface IUpdateUserRequest {
   newPassword: string;
   token: string;
 }
+
+export interface IUsersAdmin {
+  username: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}

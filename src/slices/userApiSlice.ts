@@ -1,10 +1,17 @@
-import { LOGIN_URL, LOGOUT_URL, SIGNUP_URL, USERS_URL } from "../constants";
+import {
+  ADMIN_URL,
+  LOGIN_URL,
+  LOGOUT_URL,
+  SIGNUP_URL,
+  USERS_URL,
+} from "../constants";
 import {
   ILoginRequest,
   IMessage,
   IRegisterRequest,
   IUpdateUserRequest,
   IUser,
+  IUsersAdmin,
 } from "../types";
 import { apiSlice } from "./apiSlice";
 import { getUserToken } from "./productApiSlice";
@@ -50,6 +57,20 @@ export const userApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getAllUsers: builder.query<
+      { users: IUsersAdmin[]; totalNumberOfUsers: number },
+      { pageNo: number; pageSize: number }
+    >({
+      query: ({ pageNo, pageSize }) => {
+        const token = getUserToken();
+        return {
+          url: `${ADMIN_URL}/users?pageNo=${pageNo}&pageSize=${pageSize}`,
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -58,4 +79,5 @@ export const {
   useLogoutMutation,
   useSignupMutation,
   useUpdateUserMutation,
+  useGetAllUsersQuery,
 } = userApiSlice;

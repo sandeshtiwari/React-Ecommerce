@@ -9,10 +9,10 @@ const Sidebar = ({ username }: { username: string }) => {
             Products
           </Link>
           <Link to="/admin/orderlist" className="p-4 hover:bg-gray-700">
-            Orders List
+            Orders
           </Link>
           <Link to="/admin/userlist" className="p-4 hover:bg-gray-700">
-            Orders List
+            Users
           </Link>
         </>
       ) : (
