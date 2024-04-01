@@ -1,14 +1,22 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Rating from "../components/Rating";
 import { useAppDispatch, useAppSelector } from "../hooks";
 import { addToCart } from "../slices/cartSlice";
+import { FaRegHeart } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa6";
 import { ICartItems } from "../types";
 import { useGetProductByIdQuery } from "../slices/productApiSlice";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { PLACEHOLDER_IMAGE } from "../constants";
+import {
+  useAddWishListMutation,
+  useCheckWishListQuery,
+  useRemoveWishListMutation,
+} from "../slices/wishlistSlice";
+import { skipToken } from "@reduxjs/toolkit/query";
 
 const ProductPage = () => {
   const { id: productId } = useParams();
@@ -16,6 +24,7 @@ const ProductPage = () => {
   const dispatch = useAppDispatch();
 
   const { cartItems } = useAppSelector((state) => state.cart);
+  const { userInfo } = useAppSelector((state) => state.auth);
 
   // const product = products.find((p) => p.id === productId);
   const {
@@ -23,6 +32,60 @@ const ProductPage = () => {
     isLoading,
     error,
   } = useGetProductByIdQuery(productId ?? "");
+
+  const [addWishList] = useAddWishListMutation();
+  const [removeWishList] = useRemoveWishListMutation();
+
+  const { data: wishList, refetch: refetchWishList } = useCheckWishListQuery(
+    userInfo && productId
+      ? { username: userInfo.username, productId }
+      : skipToken
+  );
+
+  const handleAddToWishlist = async () => {
+    if (!userInfo || !productId) {
+      return;
+    }
+    try {
+      await addWishList({ username: userInfo.username, productId });
+      toast.success("Added to wishlist!");
+      refetchWishList();
+    } catch (error) {
+      toast.error("Could not add to wishlist.");
+    }
+  };
+
+  const handleRemoveFromWishlist = async () => {
+    if (!userInfo || !productId) {
+      return;
+    }
+    try {
+      await removeWishList({ username: userInfo.username, productId });
+      toast.success("Removed from wishlist!");
+      refetchWishList();
+    } catch (error) {
+      toast.error("Could not remove from wishlist.");
+    }
+  };
+
+  useEffect(() => {
+    if (userInfo && productId) {
+      refetchWishList();
+    }
+  }, [userInfo, productId, refetchWishList]);
+
+  // const handleWishList = async () => {
+  //   console.log("CLicked");
+  //   if (wishList) {
+  //     await removeWishList({
+  //       username: userInfo?.username,
+  //       productId: productId,
+  //     });
+  //   } else {
+  //     await addWishList({ username: userInfo?.username, productId: productId });
+  //   }
+  //   refetchWishList();
+  // };
 
   const [qty, setQty] = useState(1);
   const [allowedQty, setAllowedQty] = useState(0);
@@ -65,7 +128,7 @@ const ProductPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="container mx-auto p-5">
-        <Link to="/" className="text-gray-500 hover:underline">
+        <Link to="/" className="text-gray-700 font-semibold hover:underline">
           Go Back
         </Link>
         {isLoading ? (
@@ -90,6 +153,21 @@ const ProductPage = () => {
               <p className="text-xl font-semibold">Price: ${product.price}</p>
               <p className="text-gray-700">{product.description}</p>
               <div className="border-t border-gray-200 pt-3">
+                {userInfo && (
+                  <div
+                    className="wishlist-icon"
+                    onClick={
+                      wishList ? handleRemoveFromWishlist : handleAddToWishlist
+                    }
+                  >
+                    {wishList ? (
+                      <FaHeart className="text-red-500" />
+                    ) : (
+                      <FaRegHeart />
+                    )}
+                  </div>
+                )}
+
                 <p className="text-gray-900">
                   Status:{" "}
                   {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
