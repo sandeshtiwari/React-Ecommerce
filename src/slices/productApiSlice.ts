@@ -114,6 +114,19 @@ export const productsApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getProductsCategory: builder.query<
+      { categories: { category: string; imageUrl: string }[] },
+      void
+    >({
+      query: () => ({
+        url: `${PRODUCTS_URL}/categories`,
+      }),
+    }),
+    getProductsByCategory: builder.query<IProduct[], string>({
+      query: (category) => ({
+        url: `${PRODUCTS_URL}/category/${category}`,
+      }),
+    }),
   }),
 });
 
@@ -125,4 +138,6 @@ export const {
   useUpdateProductMutation,
   useCreateProductMutation,
   useDeleteProductMutation,
+  useGetProductsCategoryQuery,
+  useGetProductsByCategoryQuery,
 } = productsApiSlice;

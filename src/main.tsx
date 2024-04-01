@@ -27,15 +27,19 @@ import UserProfilePage from "./pages/UserProfilePage.tsx";
 import UserOrdersListPage from "./pages/admin/UserOrdersListPage.tsx";
 import OrderListPage from "./pages/OrderListPage.tsx";
 import EditMyUserProfile from "./pages/EditMyUserProfilePage.tsx";
+import LandingPage from "./pages/LandingPage.tsx";
+import CategoryPage from "./pages/CategoryPage.tsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route index={true} path="/" element={<HomePage />} />
+      <Route index={true} path="/" element={<LandingPage />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/product/:id" element={<ProductPage />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/categories/:category" element={<CategoryPage />} />
       {/* Protected user routes */}
       <Route path="" element={<PrivateUserRoute />}>
         <Route path="/shipping" element={<ShippingPage />} />

@@ -47,7 +47,7 @@ const ProductPage = () => {
 
       const newCartItem: ICartItems = {
         id: parseInt(product.productId),
-        product, // add product to display product info in cart?
+        product,
         price: product.price,
         qty: existItem ? existItem.qty + qty : qty,
         itemsPrice: product.price * qty,
@@ -62,91 +62,80 @@ const ProductPage = () => {
       toast.error("Failed to add to cart.");
     }
   };
-
   return (
-    <div className="flex flex-col py-3 px-5">
-      <Link
-        to="/"
-        className="p-2 bg-gray-300 hover:bg-gray-400 hover:text-white border border-solid rounded-sm w-[100px] text-center"
-      >
-        Go Home
-      </Link>
-      {isLoading ? (
-        <Loader />
-      ) : error || !product ? (
-        <Message variant="danger">Error</Message>
-      ) : (
-        <div className="mt-2 flex flex-col space-y-5 justify-center items-center md:flex-row md:space-x-5 md:items-start">
-          <img
-            src={product.image || PLACEHOLDER_IMAGE}
-            alt={product.name}
-            style={{ maxWidth: "500px", maxHeight: "500px" }}
-          />
-          <div className="flex flex-col px-3 divide-y-2 space-y-3 justify-between text-gray-500 w-full md:max-w-96">
-            <h3>{product.name}</h3>
-            <div className="pt-2">
+    <div className="bg-gray-100 min-h-screen">
+      <div className="container mx-auto p-5">
+        <Link to="/" className="text-gray-500 hover:underline">
+          Go Back
+        </Link>
+        {isLoading ? (
+          <Loader />
+        ) : error || !product ? (
+          <Message variant="danger">Product not found</Message>
+        ) : (
+          <div className="grid md:grid-cols-2 gap-10 mt-5">
+            {/* <div className="bg-white p-5 rounded-lg shadow"> */}
+            <img
+              src={product.image || PLACEHOLDER_IMAGE}
+              alt={product.name}
+              className="rounded-lg mx-auto"
+            />
+            {/* </div> */}
+            <div className="space-y-3">
+              <h1 className="text-2xl font-bold">{product.name}</h1>
               <Rating
                 value={product.rating}
                 text={`${product.numReviews} reviews`}
               />
-            </div>
-            <p className="pt-5">Price: ${product.price}</p>
-            <p className="pt-5">Description: {product.description}</p>
-          </div>
-          <div className="flex flex-col items-center w-full md:w-48">
-            <div className="flex justify-between w-full border border-solid rounded-sm p-4">
-              <p>Price:</p>
-              <strong>${product.price}</strong>
-            </div>
-            <div className="flex justify-between w-full border border-solid rounded-sm p-4">
-              <p>Status:</p>
-              <strong>
-                {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
-              </strong>
-            </div>
-            {product.countInStock > 0 && allowedQty > 0 && (
-              <div className="flex justify-between w-full border border-solid rounded-sm p-4">
-                <p>Qty</p>
-                <div>
-                  <select
-                    name=""
-                    value={qty}
-                    onChange={(e) => setQty(Number(e.target.value))}
-                    className="block px-2 w-full bg-white border border-gray-300 rounded-md shadow-sm focus:ring"
-                  >
-                    {[...Array(allowedQty).keys()].map((x) => (
-                      <option key={x + 1} value={x + 1}>
-                        {x + 1}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <p className="text-xl font-semibold">Price: ${product.price}</p>
+              <p className="text-gray-700">{product.description}</p>
+              <div className="border-t border-gray-200 pt-3">
+                <p className="text-gray-900">
+                  Status:{" "}
+                  {product.countInStock > 0 ? "In Stock" : "Out of Stock"}
+                  {allowedQty < 1 && product.countInStock !== 0 && (
+                    <p className="mt-5 mb-1">Everything in cart</p>
+                  )}
+                </p>
+                {product.countInStock > 0 && allowedQty > 0 && (
+                  <div className="mt-3">
+                    <label
+                      htmlFor="qty"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Qty
+                    </label>
+                    <select
+                      id="qty"
+                      name="qty"
+                      value={qty}
+                      onChange={(e) => setQty(Number(e.target.value))}
+                      className="mt-1 block w-1/2 pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-gray-500 focus:border-gray-500 sm:text-sm rounded-md"
+                    >
+                      {[...Array(allowedQty).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                <button
+                  onClick={addToCartHandler}
+                  // disabled={product.countInStock === 0 || allowedQty < 1}
+                  className={`mt-5 bg-gray-700 text-white py-2 px-4 rounded hover:bg-gray-600 disabled:bg-gray-300 ${
+                    (product.countInStock === 0 || allowedQty < 1) &&
+                    "opacity-85 pointer-events-none bg-slate-300"
+                  }`}
+                >
+                  Add to Cart
+                </button>
               </div>
-            )}
-            {allowedQty < 1 && product.countInStock !== 0 && (
-              <p className="w-full border border-solid rounded-sm p-4 text-center">
-                Everything in cart
-              </p>
-            )}
-            {allowedQty < 1 && product.countInStock === 0 && (
-              <p className="w-full border border-solid rounded-sm p-4 text-center">
-                Product Out of Stock
-              </p>
-            )}
-            <div className="w-full border border-solid rounded-sm p-4 text-center">
-              <button
-                className={`bg-gray-700 text-white p-3 w-[50%] hover:bg-gray-600 border border-solid rounded-lg md:w-full ${
-                  (product.countInStock === 0 || allowedQty < 1) &&
-                  "opacity-85 pointer-events-none bg-slate-300"
-                }`}
-                onClick={addToCartHandler}
-              >
-                Add to Cart
-              </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

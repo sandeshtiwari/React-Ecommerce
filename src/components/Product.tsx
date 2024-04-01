@@ -1,36 +1,29 @@
+import React from "react";
 import { Link } from "react-router-dom";
-import Rating from "./Rating";
-import { IProduct } from "../types";
-import { PLACEHOLDER_IMAGE } from "../constants";
+import { IProduct } from "../types"; // Your product type
 
 interface ProductProps {
   product: IProduct;
 }
 
-export default function Product({ product }: ProductProps) {
+const Product: React.FC<ProductProps> = ({ product }) => {
   return (
-    <div
-      className="my-3 p-3 mx-auto rounded border border-solid border-gray-400 shadow-md"
-      style={{ maxWidth: "500px" }}
-    >
+    <div className="overflow-hidden rounded-lg shadow-lg bg-white hover:shadow-xl transition-shadow duration-300 ease-in-out">
       <Link to={`/product/${product.productId}`}>
         <img
-          src={product.image || PLACEHOLDER_IMAGE}
-          alt=""
-          className="rounded"
+          src={product.image}
+          alt={product.name}
+          className="w-full h-48 object-cover"
         />
       </Link>
-      <div>
-        <Link to={`/product/${product.productId}`}>
-          <div className="text-xl overflow-hidden whitespace-nowrap">
-            <strong className="block max-w-[100%] overflow-hidden text-ellipsis">
-              {product.name}
-            </strong>
-          </div>
-        </Link>
-        <Rating value={product.rating} text={`${product.numReviews} reviews`} />
-        <h3>${product.price}</h3>
+      <div className="p-4">
+        <h5 className="text-lg font-semibold tracking-tight text-gray-900">
+          <Link to={`/product/${product.productId}`}>{product.name}</Link>
+        </h5>
+        <p className="text-gray-700">${product.price}</p>
       </div>
     </div>
   );
-}
+};
+
+export default Product;
