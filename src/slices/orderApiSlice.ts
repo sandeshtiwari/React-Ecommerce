@@ -1,4 +1,4 @@
-import { ORDER_URL, USERS_URL } from "../constants";
+import { ADMIN_URL, ORDER_URL, USERS_URL } from "../constants";
 import { IOrderRequest, IOrderResponse } from "../types";
 import { apiSlice } from "./apiSlice";
 import { getUserToken } from "./productApiSlice";
@@ -44,6 +44,20 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         };
       },
     }),
+    getOrdersAdmin: builder.query<
+      { orders: IOrderResponse[]; totalNumberOfOrders: number },
+      { pageNo: number; pageSize: number }
+    >({
+      query: ({ pageNo, pageSize }) => {
+        const token = getUserToken();
+        return {
+          url: `${ADMIN_URL}/orders?pageNo=${pageNo}&pageSize=${pageSize}`,
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        };
+      },
+    }),
   }),
 });
 
@@ -51,4 +65,5 @@ export const {
   useCreateOrderMutation,
   useSetOrderPaidMutation,
   useGetUserOrdersQuery,
+  useGetOrdersAdminQuery,
 } = orderApiSlice;

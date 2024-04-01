@@ -3,6 +3,7 @@ export const LOGIN_URL = "/api/login";
 export const LOGOUT_URL = "/api/logout";
 export const SIGNUP_URL = "/api/register";
 export const PRODUCTS_URL = "/api/products";
+export const ADMIN_URL = "/api/admin";
 export const PRODUCTS_ADMIN_URL = "/api/admin/products";
 export const PRODUCT_IMAGE_UPLOAD_ADMIN_URL = "/api/admin/upload";
 export const PRODUCT_MUTATE_URL = "/api/admin/product";

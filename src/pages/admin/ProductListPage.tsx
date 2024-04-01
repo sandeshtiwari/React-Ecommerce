@@ -107,34 +107,54 @@ const ProductListPage = () => {
         ) : error ? (
           <Message variant="danger">Failed to get products</Message>
         ) : (
-          <div className="flex flex-col items-center mx-auto max-w-screen-lg p-4">
+          <div className="overflow-x-auto">
             <div className="self-end mb-2 w-full flex justify-end">
               <button
                 onClick={addProductHandler}
-                className="px-4 py-2 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded"
+                className="px-4 py-2 mt-2 mr-3 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded"
               >
                 Add new Product
               </button>
             </div>
-            <table className="table-auto w-full">
-              <thead className="bg-gray-200">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-2 hidden md:table-cell">Image</th>
-                  <th className="px-4 py-2">Name</th>
-                  <th className="px-4 py-2 hidden md:table-cell">Brand</th>
-                  <th className="px-4 py-2 hidden md:table-cell">Category</th>
-                  <th className="px-4 py-2 hidden md:table-cell">Stock</th>
-                  <th className="px-4 py-2 hidden md:table-cell">Rating</th>
-                  <th className="px-4 py-2 hidden md:table-cell">Reviews</th>
-                  <th className="px-4 py-2">Price</th>
-                  <th className="px-4 py-2 md:table-cell">Edit</th>
-                  <th className="px-4 py-2 md:table-cell">Delete</th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                    Image
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Name
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                    Brand
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                    Category
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                    Stock
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                    Rating
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                    Reviews
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Price
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider lg:table-cell">
+                    Edit
+                  </th>
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider lg:table-cell">
+                    Delete
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {products.map((product: IProduct) => (
                   <tr key={product.productId} className="border-b">
-                    <td className="px-4 py-2 text-center hidden md:table-cell">
+                    <td className="px-4 py-2 text-center hidden lg:table-cell">
                       <img
                         src={product.image || PLACEHOLDER_IMAGE}
                         alt={product.name}
@@ -149,23 +169,23 @@ const ProductListPage = () => {
                         {product.name}
                       </Link>
                     </td>
-                    <td className="px-4 py-2 hidden md:table-cell">
+                    <td className="px-4 py-2 hidden lg:table-cell">
                       {product.brand}
                     </td>
-                    <td className="px-4 py-2 hidden md:table-cell">
+                    <td className="px-4 py-2 hidden lg:table-cell">
                       {product.category}
                     </td>
-                    <td className="px-4 py-2 hidden md:table-cell">
+                    <td className="px-4 py-2 hidden lg:table-cell">
                       {product.countInStock}
                     </td>
-                    <td className="px-4 py-2 hidden md:table-cell">
+                    <td className="px-4 py-2 hidden lg:table-cell">
                       {product.rating}
                     </td>
-                    <td className="px-4 py-2 hidden md:table-cell">
+                    <td className="px-4 py-2 hidden lg:table-cell">
                       {product.numReviews}
                     </td>
                     <td className="px-4 py-2">${product.price}</td>
-                    <td className="px-4 py-2 text-center md:table-cell">
+                    <td className="px-4 py-2 text-center lg:table-cell">
                       <Link
                         className="flex items-center justify-center border rounded-sm bg-gray-200 hover:bg-gray-300 p-2"
                         to={`/admin/product/${product.productId}/edit`}
@@ -173,9 +193,9 @@ const ProductListPage = () => {
                         <FaPen />
                       </Link>
                     </td>
-                    <td className="px-4 py-2 text-center md:table-cell">
+                    <td className="px-4 py-2 text-center lg:table-cell">
                       <button
-                        className="flex items-center justify-center border rounded-sm bg-gray-200 hover:bg-gray-300 p-2"
+                        className="flex items-center justify-center border rounded-sm bg-gray-200 hover:bg-gray-300 p-3"
                         onClick={() => handleModalOpen(product)}
                       >
                         <FaTrash />
@@ -188,15 +208,14 @@ const ProductListPage = () => {
             <div className="flex justify-around items-center mt-4 w-full">
               <button
                 onClick={goToPreviousPage}
-                className={`px-4 py-2 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded ${
-                  pageNo === 0 && "pointer-events-none bg-slate-200"
-                }`}
+                className={`className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                ${pageNo === 0 && "pointer-events-none bg-slate-200"}`}
               >
                 Previous
               </button>
               <button
                 onClick={goToNextPage}
-                className={`px-4 py-2 text-sm text-white bg-gray-500 hover:bg-gray-600 rounded ${
+                className={`relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 ${
                   isNextPageDisabled && "pointer-events-none bg-slate-200"
                 }`}
               >
