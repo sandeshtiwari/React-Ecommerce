@@ -60,34 +60,20 @@ const Header = () => {
             </Link>
           ) : (
             <>
-              {userInfo && userInfo.role === "ADMIN" && (
-                <>
-                  <Link
-                    className="flex w-full items-center space-x-2"
-                    to="/admin/productlist"
-                  >
-                    <div>Products</div>
-                  </Link>
-                  <Link
-                    className="flex w-full items-center space-x-2"
-                    to="/admin/orderlist"
-                  >
-                    <div>Orders</div>
-                  </Link>
-                  <Link
-                    className="flex w-full items-center space-x-2"
-                    to="/admin/userlist"
-                  >
-                    <div>Users</div>
-                  </Link>
-                </>
-              )}
               <Link
                 className="flex w-full items-center space-x-2"
-                to={`/profile/${userInfo.username}`}
+                to={
+                  userInfo.role === "ADMIN"
+                    ? "/admin/productlist"
+                    : `/profile/${userInfo.username}`
+                }
               >
                 <FaUser />
-                <div>{userInfo.username}</div>
+                {userInfo.role === "ADMIN" ? (
+                  <div>Dashboard</div>
+                ) : (
+                  <div>{userInfo.username}</div>
+                )}
               </Link>
 
               <div className="hover:cursor-pointer" onClick={logoutHandler}>
