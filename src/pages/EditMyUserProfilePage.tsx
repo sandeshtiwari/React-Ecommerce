@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../hooks";
 import { useUpdateUserMutation } from "../slices/userApiSlice";
 import { toast } from "react-toastify";
 import { logout } from "../slices/authSlice";
+import Loader from "../components/Loader";
 
 export default function EditMyUserProfile() {
   const { username: profileUsername } = useParams();
@@ -43,15 +44,6 @@ export default function EditMyUserProfile() {
       toast.error("Pase make sure new passwords match.");
       return;
     }
-    console.log({
-      email,
-      firstName,
-      lastName,
-      oldUsername,
-      username,
-      newPassword,
-      token,
-    });
     try {
       const response = await updateUser({
         email,
@@ -76,6 +68,7 @@ export default function EditMyUserProfile() {
     <div className="flex h-full min-h-screen">
       <Sidebar username={profileUsername || ""} />
       <div className="flex-1 p-8">
+        {isLoading && <Loader />}
         <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
           <h2 className="text-2xl font-semibold mb-4">Edit User Profile</h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">

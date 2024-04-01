@@ -1,4 +1,4 @@
-import { ORDER_URL } from "../constants";
+import { ORDER_URL, USERS_URL } from "../constants";
 import { IOrderRequest, IOrderResponse } from "../types";
 import { apiSlice } from "./apiSlice";
 import { getUserToken } from "./productApiSlice";
@@ -32,8 +32,23 @@ export const orderApiSlice = apiSlice.injectEndpoints({
         },
       }
     ),
+    getUserOrders: builder.query<IOrderResponse[], string>({
+      query: (username) => {
+        const token = getUserToken();
+        return {
+          url: `${USERS_URL}/orders?username=${username}`,
+          method: "GET",
+          headers: {
+            Authorization: token ? `Bearer ${token}` : "",
+          },
+        };
+      },
+    }),
   }),
 });
 
-export const { useCreateOrderMutation, useSetOrderPaidMutation } =
-  orderApiSlice;
+export const {
+  useCreateOrderMutation,
+  useSetOrderPaidMutation,
+  useGetUserOrdersQuery,
+} = orderApiSlice;

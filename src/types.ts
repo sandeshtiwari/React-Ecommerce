@@ -82,8 +82,11 @@ export interface IOrderRequest {
 
 export interface IOrderResponse {
   orderId: string;
+  createdAt: Date;
+  deliveredAt: Date;
   paymentMethod: string;
   itemsPrice: number;
+  paidAt: Date;
   taxPrice: number;
   shippingPrice: number;
   totalPrice: number;
